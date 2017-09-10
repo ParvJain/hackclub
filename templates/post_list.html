@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
 {% block content %}
+<div>
+  <ul>
   {%	for	post	in	posts	%}
-  <div>
-          <h1><a	href="{{post.link}}">{{	post.title	}}</a></h1>
-          <p>published:	{{	post.published_date	}}</p>
-          <p>{{	post.text|linebreaksbr	}}</p>
-  </div>
+        <li> <a	href="{{post.link}}">{{	post.title	}}</a>
+          <p>submitted:	{{	post.published_date | naturaltime	}}</p>
+        </li>
 {%	endfor	%}
+</ul>
+</div>
 {% endblock %}
