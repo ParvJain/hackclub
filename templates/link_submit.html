@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Log in to My Site</h2>
+  <form method="post" >
+    {% csrf_token %}
+      Title: <input type="text" name="title"></input><br>
+      Link: <input type="text" name="link"></input>
+      <br> or<br>
+      Link: <textarea name="text"></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Welcome, {{ user.username }}!</h2>
+  {%	for	post	in	posts	%}
+  <div>
+          <h1><a	href="{{post.link}}">{{	post.title	}}</a></h1>
+          <p>published:	{{	post.published_date	}}</p>
+          <p>{{	post.text|linebreaksbr	}}</p>
+  </div>
+{%	endfor	%}
 {% endblock %}
