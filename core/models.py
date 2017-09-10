@@ -14,3 +14,20 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.CharField(max_length=150)
+    text = models.TextField(blank=False)
+    published_date = models.DateTimeField(default=timezone.now)
+
+
+class PostVote(models.Model):
+    VOTE_CHOICES = (
+        (1,     'UPVOTE'),
+        (0,     'NOVOTE'),
+        (-1,    'DOWNVOTE'),
+    )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vote = models.IntegerField(choices=VOTE_CHOICES)
