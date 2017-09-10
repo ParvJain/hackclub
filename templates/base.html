@@ -9,6 +9,7 @@
       <h1><a href="/">hackerclub</a></h1>
       {% if user.is_authenticated %}
         Welcome, {{ user.username }}!
+        <a href="{% url 'submit_post' %}">Submit</a> |
         <a href="{% url 'logout' %}">logout</a>
       {% else %}
         <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
