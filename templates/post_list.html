@@ -5,10 +5,12 @@
 <div>
   <ul>
   {%	for	post	in	posts	%}
-        <li> <a	href="{{post.link}}">{{	post.title	}}</a>
-          <p>submitted:	{{	post.published_date | naturaltime	}}</p>
-        </li>
-{%	endfor	%}
-</ul>
+    <li> <a	href="{{post.link}}">{{	post.title	}}</a>
+      <p>submitted:	{{	post.published_date | naturaltime	}}
+         <a href="/post/{{ post.id}}">comments ({{post.comment_set.count}})</a>
+       </p>
+    </li>
+  {%	endfor	%}
+  </ul>
 </div>
 {% endblock %}

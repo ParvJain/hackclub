@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
 {% block content %}
-  {%	for	post	in	posts	%}
   <div>
     <h1><a	href="{{post.link}}">{{	post.title	}}</a></h1>
-    <p>published:	{{	post.published_date	}}</p>
-    <p>{{	post.text|linebreaksbr	}}</p>
+    <p>published:	{{	post.published_date	| naturaltime	}}</p>
+    <p>{{	post.text	}}</p>
   </div>
-  {%	endfor	%}
-
+  <hr>
   {%	for	comment	in	comments	%}
   <div>
     <p>{{ comment.author }}</p>
