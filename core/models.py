@@ -23,7 +23,6 @@ class PostManager(models.Manager):
                                        .annotate(vote_score=calculate_score(models.Sum('postvote__vote'), 'published_date__hour')) \
                                        .order_by('-vote_score')
 
-
 class Post(models.Model):
     title = models.CharField(max_length=200)
     user = models.CharField(max_length=150)
