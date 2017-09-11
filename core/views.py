@@ -40,6 +40,8 @@ def submit(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
+            print post.link
+            print post.text
             post.user = request.user.username
             post.published_date = timezone.now()
             post.save()

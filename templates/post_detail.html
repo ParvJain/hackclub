@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
+{% load markdown_deux_tags %}
 {% load humanize %}
 {% block content %}
   <div>
     <h1><a	href="{{post.link}}">{{	post.title	}}</a></h1>
     <p>published:	{{	post.published_date	| naturaltime	}}</p>
-    <p>{{	post.text	}}</p>
+    <p>{{	post.text|markdown	}}</p>
   </div>
   <hr>
   {%	for	comment	in	comments	%}
   <div>
     <p>{{ comment.author }}</p>
-    <p>{{	comment.text	}}</p>
+    <p>{{ comment.text }}  </p>
   </div>
   {%	endfor	%}
 {% endblock %}

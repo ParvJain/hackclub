@@ -3,8 +3,11 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from models import Post, Comment, PostVote
+
+
+from django_markdown.admin import MarkdownModelAdmin
 # Register your models here.
 
-admin.site.register(Post)
+admin.site.register(Post, MarkdownModelAdmin)
 admin.site.register(Comment)
 admin.site.register(PostVote)

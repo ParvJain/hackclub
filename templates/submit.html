@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
+{% load django_markdown %}
 {% block content %}
 		<h1>Submit</h1>
 		<form	method="POST">
 			{% csrf_token	%}
 			{{	form.as_p	}}
+{% markdown_media %}
 			<button	type="submit"	class="save	btn	btn-default">Submit</button>
 		</form>
 {% endblock	%}
