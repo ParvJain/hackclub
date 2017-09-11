@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load humanize %}
+{% load poll_extras %}
 {% block content %}
 <div>
   <ul>
@@ -8,6 +9,12 @@
     <li> <a	href="{{post.link}}">{{	post.title	}}</a>
       <p>submitted:	{{	post.published_date | naturaltime	}}
          <a href="/post/{{ post.id}}">comments ({{post.comment_set.count}})</a>
+         {% has_voted post user as voteObj %}
+         {% if voteObj.vote == 0  or voteObj == None%}
+         Hello
+         {% else %}
+         {{voteObj.vote}}
+         {% endif %}
          {{post.score}}
        </p>
     </li>

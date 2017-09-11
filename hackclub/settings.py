@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'core',
+    'core.templatetags',
     'django_markdown',
     'markdown_deux',
     'django.contrib.admin',
