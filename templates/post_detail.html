@@ -50,7 +50,7 @@
   {%	for	comment	in	comments	%}
   <div>
     <p>{{ comment.author }} {{comment.published_date | naturaltime}}</p>
-    <p>{{ comment.text }}  </p>
+    <p>{% autoescape off %}{{ comment.text }}{% endautoescape %}  </p>
   </div>
   {%	endfor	%}
 {% endblock %}

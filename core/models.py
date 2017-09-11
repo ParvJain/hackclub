@@ -12,8 +12,6 @@ class PostManager(models.Manager):
     '''
     sorting news using hackernews sorting algoritm
     https://medium.com/hacking-and-gonzo/how-hacker-news-ranking-algorithm-works-1d9b0cf2c08d
-
-    Post.objects.filter().annotate(votes_score=Sum('postvote__vote')).order_by('-votes_score')
     '''
     def calculate_score(self, votes, item_hour_age, gravity=1.8):
         return (votes - 1) / pow((item_hour_age+2), gravity)
@@ -21,7 +19,7 @@ class PostManager(models.Manager):
     def get_query_set(self):
         return super(PostManager, self).get_query_set().filter() \
                                        .annotate(vote_score=calculate_score(models.Sum('postvote__vote'), 'published_date__hour')) \
-                                       .order_by('-vote_score')
+                                       .order_by('vote_score')
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
