@@ -6,16 +6,39 @@
 <div>
   <ul>
   {%	for	post	in	posts	%}
-    <li> <a	href="{{post.link}}">{{	post.title	}}</a>
-      <p>submitted:	{{	post.published_date | naturaltime	}}
+    <li> {% if post.link %}
+      <a	href="{{post.link}}">{{	post.title	}}</a>
+      {% else %}
+      <a	href="/post/{{ post.id}}">{{	post.title	}}</a>
+      {% endif %}
+      <p>
+        {% has_voted post user as voteObj %}
+        {% if voteObj.vote == 0  or voteObj == None %}
+        <form method="POST" action="{% url 'submit_vote' post.id  %}">
+          {% csrf_token %}
+          <input type="submit" name="vote" value="+"></input>
+          <input type="submit" name="vote" value="-"></input>
+        </form>
+        {% else %}
+        {% if voteObj.vote == 1 %}
+        <form method="POST" action="{% url 'submit_vote' post.id  %}">
+          {% csrf_token %}
+          <input type="submit" name="vote" value="-"></input>
+        </form>
+        {% else %}
+        <form method="POST" action="{% url 'submit_vote' post.id  %}">
+          {% csrf_token %}
+          <input type="submit" name="vote" value="+"></input>
+        </form>
+        {% endif %}
+        {% endif %}
+        {% if post.score %}
+        {{post.score}}
+        {% else %}
+        0
+        {% endif %} points submitted by {{post.user}}
+      {{ post.published_date | naturaltime }}
          <a href="/post/{{ post.id}}">comments ({{post.comment_set.count}})</a>
-         {% has_voted post user as voteObj %}
-         {% if voteObj.vote == 0  or voteObj == None%}
-         Hello
-         {% else %}
-         {{voteObj.vote}}
-         {% endif %}
-         {{post.score}}
        </p>
     </li>
   {%	endfor	%}

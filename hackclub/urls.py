@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^signup/$', core_views.signup, name='signup'),
     url(r'^post/(?P<pk>\d+)/$',	core_views.post_detail,	name='post_detail'),
     url(r'^submit/', core_views.submit, name='submit_post'),
+    url(r'^vote/(?P<pk>\d+)/$', core_views.submit_vote, name='submit_vote'),
 ]

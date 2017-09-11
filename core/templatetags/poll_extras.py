@@ -7,7 +7,6 @@ register = template.Library()
 @register.assignment_tag
 def has_voted(post, user):
     try:
-        PostVote.objects.get(post=post, user=user)
         return PostVote.objects.get(post=post, user=user)
     except:
         return None

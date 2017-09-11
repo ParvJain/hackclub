@@ -2,11 +2,45 @@
 
 {% load markdown_deux_tags %}
 {% load humanize %}
+
+{% load poll_extras %}
 {% block content %}
-  <div>
-    <h1><a	href="{{post.link}}">{{	post.title	}}</a></h1>
-    <p>published:	{{	post.published_date	| naturaltime	}}</p>
-    <p>{{	post.text|markdown	}}</p>
+  <div><p>
+       {% has_voted post user as voteObj %}
+       {% if voteObj.vote == 0  or voteObj == None %}
+       <form method="POST" action="{% url 'submit_vote' post.id  %}">
+         {% csrf_token %}
+         <input type="submit" name="vote" value="+"></input>
+         <input type="submit" name="vote" value="-"></input>
+       </form>
+       {% else %}
+       {% if voteObj.vote == 1 %}
+       <form method="POST" action="{% url 'submit_vote' post.id  %}">
+         {% csrf_token %}
+         <input type="submit" name="vote" value="-"></input>
+       </form>
+       {% else %}
+       <form method="POST" action="{% url 'submit_vote' post.id  %}">
+         {% csrf_token %}
+         <input type="submit" name="vote" value="+"></input>
+       </form>
+       {% endif %}
+       {% endif %}
+     </p>
+       {% if post.link %}
+        <a	href="{{post.link}}">{{	post.title	}}</a>
+        {% else %}
+        <a	href="/post/{{ post.id}}">{{	post.title	}}</a>
+        {% endif %}
+       <p>
+       {% if post.score %}
+       {{post.score}}
+       {% else %}
+       0
+       {% endif %} points submitted by {{post.user}}
+     {{ post.published_date | naturaltime }}
+        <a href="/post/{{ post.id}}">comments ({{post.comment_set.count}})</a>
+      </p>
   </div>
   <hr>
   {%	for	comment	in	comments	%}
