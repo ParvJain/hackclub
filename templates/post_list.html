@@ -4,7 +4,7 @@
 {% load poll_extras %}
 {% block content %}
 <div>
-  <ul>
+  <ol>
   {%	for	post	in	posts	%}
     <li> {% if post.link %}
       <a	href="{{post.link}}">{{	post.title	}}</a>
@@ -42,6 +42,6 @@
        </p>
     </li>
   {%	endfor	%}
-  </ul>
+</ol>
 </div>
 {% endblock %}

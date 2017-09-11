@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 from django_markdown.fields import MarkdownFormField
 from django_markdown.widgets import MarkdownWidget
 
@@ -8,3 +8,8 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title','link', 'text')
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
