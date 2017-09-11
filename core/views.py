@@ -13,7 +13,7 @@ from .models import Post, Comment, PostVote
 from .forms import PostForm
 
 def home(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts = Post.score_sorted.all()
     return render(request, 'post_list.html', {'posts' : posts})
 
 def post_detail(request, pk):
@@ -53,7 +53,7 @@ def submit(request):
 def submit_vote(request, pk):
     if request.method == 'POST':
         u = User.objects.get(id=request.user.id)
-        p = Post.objects.get(id=pk)
+        p = Post.score_sorted.get(id=pk)
         voteargs = request.body.split("&vote=")[1]
         try:
             v, created = PostVote.objects.update_or_create(post=p, user=u)

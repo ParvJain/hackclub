@@ -10,13 +10,3 @@ def has_voted(post, user):
         return PostVote.objects.get(post=post, user=user)
     except:
         return None
-    # voted = {'hasVoted' : False,
-    # 'votedObj' : 0}
-    # try:
-    #     p = PostVote.objects.get(post=post, user=user)
-    #     if p.vote != 0:
-    #         voted.hasVoted = True
-    #         voted.votedObj = p.vote
-    #     return voted
-    # except:
-    #     return voted
