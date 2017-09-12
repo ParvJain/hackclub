@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^submit/', core_views.submit, name='submit_post'),
     url(r'^vote/(?P<pk>\d+)/$', core_views.submit_vote, name='submit_vote'),
     url(r'^send_newsreporter/$', core_views.send_newsreporter, name='send_newsreporter'),
+    url(r'^search/$', core_views.search_posts, name='search_post'),
 ]

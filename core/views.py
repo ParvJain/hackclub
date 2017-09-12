@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.postgres.search import SearchVector
 
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -99,3 +100,14 @@ def get_vote_value(voteargs):
 def send_newsreporter(request):
     stories = news_reporter.get_top_thirty_stories()
     return redirect('/')
+
+def search_posts(request):
+    searchq = request.GET.get('searchq', '')
+    d_posts = []
+    posts = Post.score_sorted.annotate(
+        search=SearchVector('title', 'text', 'link', 'comment__text')
+    ).filter(search=searchq)
+    for post in posts:
+        if post not in d_posts:
+            d_posts.append(post)
+    return render(request, 'post_list.html', {'posts' : d_posts, 'searchq' : searchq})

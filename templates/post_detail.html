@@ -41,6 +41,11 @@
      {{ post.published_date | naturaltime }}
         <a href="/post/{{ post.id}}">comments ({{post.comment_set.count}})</a>
       </p>
+      <p>
+        {% autoescape off %}
+        {{post.text | markdown}}
+        {% endautoescape %}
+      </p>
   </div>
   <hr>
     <form method="POST" class="post-form">{% csrf_token %}

@@ -23,7 +23,7 @@ def get_top_thirty_stories():
         post, created = Post.score_sorted.get_or_create(**story_obj)
         post.save()
         if len(PostVote.objects.filter(post=post)) == 0:
-            u = User.objects.get(pk=1)
+            u = User.objects.get_or_create(username="hackernews")[0]
             vote = PostVote(post=post, user=u, vote=story['score'])
             vote.save()
         try:
