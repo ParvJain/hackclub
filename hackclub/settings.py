@@ -81,7 +81,9 @@ WSGI_APPLICATION = 'hackclub.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 db_from_env = dj_database_url.config()
+DATABASES = {}
 DATABASES['default'] =  dj_database_url.config()
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
