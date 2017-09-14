@@ -13,7 +13,7 @@ from django.utils import timezone
 from .models import Post, Comment, PostVote
 from .forms import PostForm, CommentForm
 
-import news_reporter
+import .news_reporter
 
 def home(request):
     posts = Post.score_sorted.all()
