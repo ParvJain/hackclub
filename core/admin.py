@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from models import Post, Comment, PostVote
+from .models import Post, Comment, PostVote
 
 
 from django_markdown.admin import MarkdownModelAdmin
