@@ -98,7 +98,8 @@ def get_vote_value(voteargs):
         return 0
 
 def send_newsreporter(request):
-    Reporter.get_top_thirty_stories()
+    r = Reporter()
+    r.get_top_thirty_stories()
     return redirect('/')
 
 def search_posts(request):
