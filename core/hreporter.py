@@ -10,13 +10,13 @@ class Reporter(object):
     """docstring for Reporter."""
     def __init__(self):
         self.API_URL = "https://hacker-news.firebaseio.com/v0/topstories.json"
-        self.stories = json.loads(requests.get(API_URL).content)
+        self.stories = json.loads(requests.get(self.API_URL).content)
 
     def story_url(self, story_id):
         return "https://hacker-news.firebaseio.com/v0/item/{}.json".format(story_id)
 
     def get_top_thirty_stories(self):
-        for story in stories[:30]:
+        for story in self.stories[:30]:
             story_obj = {}
             story = json.loads(requests.get(story_url(self, story)).content)
             story_obj['title'] = story['title']
