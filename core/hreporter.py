@@ -18,7 +18,7 @@ class Reporter(object):
     def get_top_thirty_stories(self):
         for story in self.stories[:30]:
             story_obj = {}
-            story = json.loads(requests.get(story_url(self, story)).content)
+            story = json.loads(requests.get(self.story_url(self, story)).content)
             story_obj['title'] = story['title']
             story_obj['user'] = story['by']
             story_obj['link'] = story.get('url', '')
@@ -32,7 +32,7 @@ class Reporter(object):
             try:
                 for comment in story['kids']:
                     comment_obj = {}
-                    comment = json.loads(requests.get(story_url(self, comment)).content)
+                    comment = json.loads(requests.get(self.story_url(self, comment)).content)
                     comment_obj['author'] = comment['by']
                     comment_obj['text'] = comment['text']
                     comment_obj['post'] = post
