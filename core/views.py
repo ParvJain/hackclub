@@ -13,7 +13,7 @@ from django.utils import timezone
 from .models import Post, Comment, PostVote
 from .forms import PostForm, CommentForm
 
-import .news_reporter
+from .hreporter import Reporter
 
 def home(request):
     posts = Post.score_sorted.all()
@@ -98,7 +98,7 @@ def get_vote_value(voteargs):
         return 0
 
 def send_newsreporter(request):
-    stories = news_reporter.get_top_thirty_stories()
+    Reporter.get_top_thirty_stories()
     return redirect('/')
 
 def search_posts(request):
