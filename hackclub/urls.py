@@ -32,4 +32,5 @@ urlpatterns = [
     url(r'^vote/(?P<pk>\d+)/$', core_views.submit_vote, name='submit_vote'),
     url(r'^send_newsreporter/$', core_views.send_newsreporter, name='send_newsreporter'),
     url(r'^search/$', core_views.search_posts, name='search_post'),
+    url(r'^(?P<post_id>\d+)/comments/reply/(?P<parent_id>\d+)$', core_views.comment_reply, name='comment_reply'),
 ]

@@ -3,6 +3,7 @@
 {% load markdown_deux_tags %}
 {% load humanize %}
 
+{% load mptt_tags %}
 {% load poll_extras %}
 {% block content %}
   <div><p>
@@ -48,14 +49,23 @@
       </p>
   </div>
   <hr>
+
+  {% if user.is_authenticated %}
     <form method="POST" class="post-form">{% csrf_token %}
         <textarea name="text" id="id_text" rows="6" cols="60" required=""></textarea><br>
         <button type="submit" class="save btn btn-default">add comment</button>
     </form>
-  {%	for	comment	in	comments	%}
-  <div>
-    <p>{{ comment.author }} {{comment.published_date | naturaltime}}</p>
-    <p>{% autoescape off %}{{ comment.text }}{% endautoescape %}  </p>
-  </div>
-  {%	endfor	%}
+
+    {% endif %}
+{% recursetree comments %}
+<div class="comment" style="margin-left: {{ node.get_level }}00px">
+</a>{{ node.author }} on {{ node.published_date }}</h5>
+        <div>{% autoescape off %}{{ node.text|linebreaks }}{% endautoescape %} </div>
+        {% if user.is_authenticated %}<a href="{% url 'comment_reply' post.pk node.pk %}" target="_blank">Reply</a>{% endif %}
+</div>
+  {% if not node.is_leaf_node %}
+      {{ children }}
+{% endif %}
+{% endrecursetree %}
+
 {% endblock %}

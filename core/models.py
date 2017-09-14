@@ -4,6 +4,7 @@ from django.utils import timezone
 import operator
 
 from django_markdown.models import MarkdownField
+from mptt.models import MPTTModel, TreeForeignKey
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -35,11 +36,15 @@ class Post(models.Model):
     def score(self):
         return PostVote.objects.filter(post=self).aggregate(models.Sum('vote'))['vote__sum']
 
-class Comment(models.Model):
+class Comment(MPTTModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.CharField(max_length=150)
     text = models.TextField(blank=False)
     published_date = models.DateTimeField(default=timezone.now)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+
+    class MPTTMeta:
+        order_insertion_by=['published_date']
 
 
 class PostVote(models.Model):

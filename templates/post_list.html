@@ -44,4 +44,7 @@
   {%	endfor	%}
 </ol>
 </div>
+{% if posts.has_next %}
+<a href="?p={{posts.next_page_number}}">more</a>
+{% endif %}
 {% endblock %}

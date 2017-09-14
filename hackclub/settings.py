@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'mptt'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,17 @@ WSGI_APPLICATION = 'hackclub.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 db_from_env = dj_database_url.config()
-DATABASES = {}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'hackclub',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES['default'] =  dj_database_url.config()
 
 

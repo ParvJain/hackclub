@@ -6,17 +6,30 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import SearchVector
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
+from django import forms
+from django.http import HttpResponseRedirect
 
 from django.utils import timezone
 
 from .models import Post, Comment, PostVote
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, CommentReplyForm
 
 from .hreporter import Reporter
 
 def home(request):
-    posts = Post.score_sorted.all()
+    post_list = Post.score_sorted.all()
+    page = request.GET.get('p', 1)
+
+    paginator = Paginator(post_list, 10)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
     return render(request, 'post_list.html', {'posts' : posts})
 
 def post_detail(request, pk):
@@ -34,6 +47,25 @@ def post_detail(request, pk):
     return render(request, 'post_detail.html', {'post'     : post,
                                                 'comments' : comments,
                                                 'form'     : form })
+def comment_reply(request,post_id,parent_id):
+    formset = ""
+    if request.method == 'POST':
+		formset = CommentReplyForm(request.POST)
+		if formset.is_valid():
+			comment = formset.save(commit=False)
+			comment.author = request.user
+			comment.save()
+			return redirect('/post/' + post_id)
+    else:
+		comment = Comment()
+		comment.post = Post.score_sorted.get(pk=post_id)
+		if parent_id != "0":
+			comment.parent = Comment.objects.get(pk=parent_id)
+		formset = CommentReplyForm(instance=comment)
+    formset.fields['post'].widget = forms.HiddenInput()
+    formset.fields['parent'].widget = forms.HiddenInput()
+    return render(request,"comment_reply.html", {"formset": formset})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -79,11 +111,11 @@ def submit_vote(request, pk):
             else:
                 v.vote = get_vote_value(voteargs)
             v.save()
-            return redirect('/')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             v.vote = get_vote_value(voteargs)
             v.save()
-            return redirect('/')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def get_vote_value(voteargs):
     '''
